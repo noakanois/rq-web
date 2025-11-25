@@ -96,29 +96,49 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // Canvas Frame Sequence (High Performance)
+    // Glitch Morph Background
     const canvas = document.getElementById('bg-canvas');
     const context = canvas.getContext('2d');
-    const frameCount = 125;
-    const currentFrame = index => `frames/frame_${index.toString().padStart(4, '0')}.jpg`;
+
+    // Image Paths
+    const imagePaths = [
+        'pics/kanoi_a_window_into_knowledge_big_square_frame_58c9371b-7a9b-413f-baf1-215b538c9bbc.png',
+        'pics/kanoi_a_window_into_super_intelligence_arctic_galaxy_700b15ce-67d5-43b3-8d05-98ebc7e3d589.png',
+        'pics/kanoi_a_window_into_super_intelligence_arctic_galaxy_b742164f-adcf-4162-955b-35e53954292b.png',
+        'pics/kanoi_square_window_into_knowledge_humanity_snowy_mountains_e39b3216-b52d-49d7-bf4b-d4a6f2ca7c27.png'
+    ];
+
+    // Shuffle Images
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    shuffle(imagePaths);
 
     const images = [];
-    const frameObj = { frame: 0 };
-    let targetFrame = 0;
+    let loadedCount = 0;
 
     // Preload images
-    for (let i = 1; i <= frameCount; i++) {
+    imagePaths.forEach(path => {
         const img = new Image();
-        img.src = currentFrame(i);
+        img.src = path;
+        img.onload = () => {
+            loadedCount++;
+            if (loadedCount === 1) drawImageCover(images[0]); // Draw first immediately
+        };
         images.push(img);
-    }
+    });
 
     // Set canvas dimensions
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Draw Image with "object-fit: cover" logic
-    function drawImage(img) {
+    // Helper to draw image cover
+    function drawImageCover(img, opacity = 1, xOffset = 0) {
+        if (!img) return;
         const canvasRatio = canvas.width / canvas.height;
         const imgRatio = img.width / img.height;
         let drawWidth, drawHeight, offsetX, offsetY;
@@ -135,49 +155,99 @@ document.addEventListener('DOMContentLoaded', () => {
             offsetY = 0;
         }
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+        context.globalAlpha = opacity;
+        context.drawImage(img, offsetX + xOffset, offsetY, drawWidth, drawHeight);
+        context.globalAlpha = 1.0;
     }
 
-    // Initial draw
-    images[0].onload = () => drawImage(images[0]);
+    // Scroll State
+    let scrollProgress = 0;
+    let targetProgress = 0;
+    const totalSections = 6; // We have 6 sections now
 
-    // Update target frame on scroll
     window.addEventListener('scroll', () => {
         const scrollTop = window.scrollY;
         const docHeight = document.body.scrollHeight - window.innerHeight;
         const scrollFraction = Math.max(0, Math.min(1, scrollTop / docHeight));
 
-        targetFrame = scrollFraction * (frameCount - 1);
+        // Map scroll to total section range (0 to 5)
+        targetProgress = scrollFraction * (totalSections - 1);
     });
 
-    // Render loop (Lerp)
+    // Render Loop (Glitch Morph)
     function render() {
-        // Lerp frame index
-        const diff = targetFrame - frameObj.frame;
+        // Lerp progress
+        const diff = targetProgress - scrollProgress;
+        if (Math.abs(diff) > 0.001) {
+            scrollProgress += diff * 0.1;
+        }
 
-        if (Math.abs(diff) > 0.01) {
-            frameObj.frame += diff * 0.1;
-            const frameIndex = Math.round(frameObj.frame);
+        // Calculate cyclic indices
+        const sectionIndex = Math.floor(scrollProgress);
+        const imgIndex = sectionIndex % images.length;
+        const nextImgIndex = (sectionIndex + 1) % images.length;
 
-            if (images[frameIndex] && images[frameIndex].complete) {
-                drawImage(images[frameIndex]);
+        // Progress within the current section transition (0.0 to 1.0)
+        const progress = scrollProgress - sectionIndex;
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        // If static (or near static)
+        if (progress < 0.05) {
+            drawImageCover(images[imgIndex]);
+        } else if (progress > 0.95) {
+            drawImageCover(images[nextImgIndex]);
+        } else {
+            // GLITCH TRANSITION
+            const strips = 20;
+            const stripHeight = canvas.height / strips;
+
+            for (let i = 0; i < strips; i++) {
+                const y = i * stripHeight;
+                // Random offset based on progress (peak at 0.5)
+                const glitchIntensity = Math.sin(progress * Math.PI) * 100;
+                const randomOffset = (Math.random() - 0.5) * glitchIntensity;
+
+                // Save context for clipping
+                context.save();
+                context.beginPath();
+                context.rect(0, y, canvas.width, stripHeight);
+                context.clip();
+
+                // Draw Image A (fading out, shifting left)
+                drawImageCover(images[imgIndex], 1 - progress, randomOffset);
+
+                // Draw Image B (fading in, shifting right)
+                drawImageCover(images[nextImgIndex], progress, -randomOffset);
+
+                context.restore();
+            }
+
+            // Add some random color noise bars
+            if (Math.random() > 0.7) {
+                context.fillStyle = Math.random() > 0.5 ? '#00ffcc' : '#ff00c1';
+                context.fillRect(0, Math.random() * canvas.height, canvas.width, 2);
+            }
+
+            // TV Static Noise
+            if (Math.random() > 0.8) {
+                const noiseX = Math.random() * canvas.width;
+                const noiseY = Math.random() * canvas.height;
+                const noiseW = Math.random() * 200;
+                const noiseH = Math.random() * 50;
+                context.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                context.fillRect(noiseX, noiseY, noiseW, noiseH);
             }
         }
 
         requestAnimationFrame(render);
     }
-
     render();
 
     // Handle Resize
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        const frameIndex = Math.round(frameObj.frame);
-        if (images[frameIndex]) {
-            drawImage(images[frameIndex]);
-        }
     });
 
     // Typewriter Effect for Scroll Snap

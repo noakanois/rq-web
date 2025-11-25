@@ -32,14 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
         magneticLink.style.transform = 'translate(0px, 0px)';
     });
 
-    // Text Scramble Effect (Simple version)
+    // Text Scramble Effect (Periodic & Slower)
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    document.querySelectorAll('.glitch-text').forEach(header => {
+
+    function runScramble(element) {
         let iterations = 0;
-        const originalText = header.dataset.text;
+        const originalText = element.dataset.text;
 
         const interval = setInterval(() => {
-            header.innerText = originalText.split("")
+            element.innerText = originalText.split("")
                 .map((letter, index) => {
                     if (index < iterations) {
                         return originalText[index];
@@ -53,8 +54,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             iterations += 1 / 3;
-        }, 30);
-    });
+        }, 60); // Slower speed (60ms)
+    }
+
+    const glitchHeaders = document.querySelectorAll('.glitch-text');
+
+    // Run initially
+    glitchHeaders.forEach(header => runScramble(header));
+
+    // Run periodically every 10 seconds
+    setInterval(() => {
+        glitchHeaders.forEach(header => runScramble(header));
+    }, 10000);
     // Scroll Reveal Effect
     const observerOptions = {
         threshold: 0.1

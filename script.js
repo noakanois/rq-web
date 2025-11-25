@@ -64,8 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // Optional: Stop observing once visible
-                // observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
@@ -77,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
-    // Add visible class styles dynamically or rely on CSS (adding here for simplicity)
+    // Add visible class styles dynamically
     const style = document.createElement('style');
     style.innerHTML = `
         .project-section.visible {
@@ -86,4 +84,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(style);
+
+    // Video Scroll Scrubbing (Optimized with Lerp)
+    const video = document.getElementById('bg-video');
+    let targetTime = 0;
+
+    // Ensure video metadata is loaded to get duration
+    video.addEventListener('loadedmetadata', () => {
+        video.pause();
+    });
+
+    // Update target time on scroll
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.body.scrollHeight - window.innerHeight;
+        const scrollFraction = Math.max(0, Math.min(1, scrollTop / docHeight));
+
+        if (video.duration) {
+            targetTime = video.duration * scrollFraction;
+        }
+    });
+
+    // Render loop for smooth seeking (Lerp)
+    function render() {
+        if (video.duration) {
+            // Linear interpolation: current = current + (target - current) * factor
+            // 0.1 provides a nice smooth "weight" to the movement
+            const diff = targetTime - video.currentTime;
+
+            // Only update if the difference is significant to save resources
+            if (Math.abs(diff) > 0.01) {
+                video.currentTime += diff * 0.1;
+            }
+        }
+        requestAnimationFrame(render);
+    }
+
+    // Start the loop
+    requestAnimationFrame(render);
 });

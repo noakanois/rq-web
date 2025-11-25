@@ -96,41 +96,87 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // Video Scroll Scrubbing (Optimized with Lerp)
-    const video = document.getElementById('bg-video');
-    let targetTime = 0;
+    // Canvas Frame Sequence (High Performance)
+    const canvas = document.getElementById('bg-canvas');
+    const context = canvas.getContext('2d');
+    const frameCount = 125;
+    const currentFrame = index => `frames/frame_${index.toString().padStart(4, '0')}.jpg`;
 
-    // Ensure video metadata is loaded to get duration
-    video.addEventListener('loadedmetadata', () => {
-        video.pause();
-    });
+    const images = [];
+    const frameObj = { frame: 0 };
+    let targetFrame = 0;
 
-    // Update target time on scroll
+    // Preload images
+    for (let i = 1; i <= frameCount; i++) {
+        const img = new Image();
+        img.src = currentFrame(i);
+        images.push(img);
+    }
+
+    // Set canvas dimensions
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Draw Image with "object-fit: cover" logic
+    function drawImage(img) {
+        const canvasRatio = canvas.width / canvas.height;
+        const imgRatio = img.width / img.height;
+        let drawWidth, drawHeight, offsetX, offsetY;
+
+        if (canvasRatio > imgRatio) {
+            drawWidth = canvas.width;
+            drawHeight = canvas.width / imgRatio;
+            offsetX = 0;
+            offsetY = (canvas.height - drawHeight) / 2;
+        } else {
+            drawWidth = canvas.height * imgRatio;
+            drawHeight = canvas.height;
+            offsetX = (canvas.width - drawWidth) / 2;
+            offsetY = 0;
+        }
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+    }
+
+    // Initial draw
+    images[0].onload = () => drawImage(images[0]);
+
+    // Update target frame on scroll
     window.addEventListener('scroll', () => {
         const scrollTop = window.scrollY;
         const docHeight = document.body.scrollHeight - window.innerHeight;
         const scrollFraction = Math.max(0, Math.min(1, scrollTop / docHeight));
 
-        if (video.duration) {
-            targetTime = video.duration * scrollFraction;
-        }
+        targetFrame = scrollFraction * (frameCount - 1);
     });
 
-    // Render loop for smooth seeking (Lerp)
+    // Render loop (Lerp)
     function render() {
-        if (video.duration) {
-            // Linear interpolation: current = current + (target - current) * factor
-            // 0.1 provides a nice smooth "weight" to the movement
-            const diff = targetTime - video.currentTime;
+        // Lerp frame index
+        const diff = targetFrame - frameObj.frame;
 
-            // Only update if the difference is significant to save resources
-            if (Math.abs(diff) > 0.01) {
-                video.currentTime += diff * 0.1;
+        if (Math.abs(diff) > 0.01) {
+            frameObj.frame += diff * 0.1;
+            const frameIndex = Math.round(frameObj.frame);
+
+            if (images[frameIndex] && images[frameIndex].complete) {
+                drawImage(images[frameIndex]);
             }
         }
+
         requestAnimationFrame(render);
     }
 
-    // Start the loop
-    requestAnimationFrame(render);
+    render();
+
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const frameIndex = Math.round(frameObj.frame);
+        if (images[frameIndex]) {
+            drawImage(images[frameIndex]);
+        }
+    });
 });

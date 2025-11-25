@@ -38,8 +38,8 @@
     <main>
         <section class="hero-section">
             <div class="hero-text-container">
-                <h1 class="glitch-text" data-text="INTELLIGENCE">INTELLIGENCE</h1>
-                <h1 class="glitch-text sub-glitch" data-text="REDEFINED">REDEFINED</h1>
+                <h1 class="glitch-text blend-text" data-text="RQ RESEARCH">RQ RESEARCH</h1>
+                <h1 class="glitch-text sub-glitch" data-text="LAB_01">LAB_01</h1>
             </div>
 
             <div class="hero-meta">
@@ -51,34 +51,56 @@
                     <span class="label">STATUS</span>
                     <span class="value blinking">OPERATIONAL</span>
                 </div>
+                <div class="scroll-indicator">
+                    <span>SCROLL TO EXPLORE</span>
+                    <div class="line"></div>
+                </div>
             </div>
         </section>
 
-        <section class="research-grid">
-            <article class="research-item">
-                <div class="item-header">
-                    <span class="index">01</span>
-                    <h2>NEURAL_CHESS</h2>
+        <div class="research-list">
+            <section class="project-section" id="neural-chess">
+                <div class="project-index">01</div>
+                <div class="project-content">
+                    <h2 class="project-title">NEURAL_CHESS</h2>
+                    <p class="project-desc">Pushing the boundaries of strategic reasoning. Our models go beyond simple
+                        pattern matching to demonstrate deep planning capabilities in complex game states.</p>
+                    <ul class="project-specs">
+                        <li><span>MODEL</span> TRANSFORMER-XL</li>
+                        <li><span>ELO</span> 3500+</li>
+                        <li><span>STATUS</span> ACTIVE DEV</li>
+                    </ul>
                 </div>
-                <p>Pushing strategic reasoning boundaries.</p>
-            </article>
+            </section>
 
-            <article class="research-item">
-                <div class="item-header">
-                    <span class="index">02</span>
-                    <h2>SEMANTIC_SQL</h2>
+            <section class="project-section" id="semantic-sql">
+                <div class="project-index">02</div>
+                <div class="project-content">
+                    <h2 class="project-title">SEMANTIC_SQL</h2>
+                    <p class="project-desc">Bridging the gap between natural language and database queries. We are
+                        building the next generation of Text-to-SQL engines with semantic understanding.</p>
+                    <ul class="project-specs">
+                        <li><span>ACCURACY</span> 98.5%</li>
+                        <li><span>DIALECTS</span> POSTGRES / DUCKDB</li>
+                        <li><span>STATUS</span> BETA</li>
+                    </ul>
                 </div>
-                <p>Natural language to database synthesis.</p>
-            </article>
+            </section>
 
-            <article class="research-item">
-                <div class="item-header">
-                    <span class="index">03</span>
-                    <h2>DUCKDB_VIEW</h2>
+            <section class="project-section" id="duckdb-view">
+                <div class="project-index">03</div>
+                <div class="project-content">
+                    <h2 class="project-title">DUCKDB_VIEW</h2>
+                    <p class="project-desc">High-performance data visualization directly in your IDE. Process millions
+                        of rows in milliseconds with our custom DuckDB-WASM implementation.</p>
+                    <ul class="project-specs">
+                        <li><span>PLATFORM</span> VSCODE</li>
+                        <li><span>ENGINE</span> DUCKDB WASM</li>
+                        <li><span>STATUS</span> RELEASED</li>
+                    </ul>
                 </div>
-                <p>High-performance data visualization.</p>
-            </article>
-        </section>
+            </section>
+        </div>
     </main>
 
     <footer>

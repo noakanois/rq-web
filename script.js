@@ -55,4 +55,35 @@ document.addEventListener('DOMContentLoaded', () => {
             iterations += 1 / 3;
         }, 30);
     });
+    // Scroll Reveal Effect
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Optional: Stop observing once visible
+                // observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.project-section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(50px)';
+        section.style.transition = 'all 1s ease-out';
+        observer.observe(section);
+    });
+
+    // Add visible class styles dynamically or rely on CSS (adding here for simplicity)
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .project-section.visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    `;
+    document.head.appendChild(style);
 });

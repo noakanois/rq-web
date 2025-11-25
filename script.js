@@ -179,4 +179,36 @@ document.addEventListener('DOMContentLoaded', () => {
             drawImage(images[frameIndex]);
         }
     });
+
+    // Typewriter Effect for Scroll Snap
+    const typeWriterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const desc = entry.target.querySelector('.project-desc');
+                if (desc && !desc.dataset.typed) {
+                    const text = desc.innerText;
+                    desc.innerText = '';
+                    desc.dataset.typed = 'true';
+
+                    let i = 0;
+                    function type() {
+                        if (i < text.length) {
+                            desc.innerText += text.charAt(i);
+                            i++;
+                            setTimeout(type, 20);
+                        }
+                    }
+                    type();
+                }
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.project-section').forEach(section => {
+        const desc = section.querySelector('.project-desc');
+        if (desc) {
+            desc.dataset.originalText = desc.innerText;
+        }
+        typeWriterObserver.observe(section);
+    });
 });

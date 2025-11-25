@@ -5,114 +5,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RQ-Research | Future Intelligence</title>
-    <meta name="description" content="RQ-Research: Pioneering Text-to-SQL and Chess Deep Thinking.">
-
-    <!-- Fonts -->
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-    <div class="noise-overlay"></div>
+    <div id="bg-container"></div>
 
-    <canvas id="bg-canvas"></canvas>
+    <div class="container">
+        <header>
+            <div class="header-title">RQ.RES LAB _01</div>
+            <a href="#" class="header-link">GITHUB_REPO</a>
+        </header>
 
-    <header>
-        <div class="logo-container">
-            <span class="logo-text">RQ<span class="accent">.</span>RES</span>
-            <span class="logo-sub">LAB_01</span>
-        </div>
-        <nav>
-            <a href="https://github.com/rq-research" target="_blank" class="magnetic-link">
-                <span class="link-text">GITHUB_REPO</span>
-            </a>
-        </nav>
-    </header>
+        <main>
+            <h1>Intelligence<br><span class="highlight">Redefined</span></h1>
 
-    <main>
-        <section class="hero-section">
-            <div class="hero-text-container">
-                <h1 class="glitch-text blend-text" data-text="RQ RESEARCH">RQ RESEARCH</h1>
-                <h1 class="glitch-text sub-glitch" data-text="AI ARKITECTURE">AI ARKITECTURE</h1>
+            <div class="subtitle">
+                Focus Text-to-SQL / Deep Thinking<br>
+                Status Operational
             </div>
 
-            <div class="hero-meta">
-                <div class="meta-item">
-                    <span class="label">FOCUS</span>
-                    <span class="value">TEXT-TO-SQL / DEEP THINKING</span>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <span class="feature-number">01</span>
+                    <span class="feature-title">Neural_Chess</span>
+                    <div class="feature-desc">Pushing strategic reasoning boundaries.</div>
                 </div>
-                <div class="meta-item">
-                    <span class="label">STATUS</span>
-                    <span class="value blinking">OPERATIONAL</span>
+                <div class="feature-item">
+                    <span class="feature-number">02</span>
+                    <span class="feature-title">Semantic_SQL</span>
+                    <div class="feature-desc">Natural language to database synthesis.</div>
                 </div>
-                <div class="scroll-indicator">
-                    <span>SCROLL TO EXPLORE</span>
-                    <div class="line"></div>
+                <div class="feature-item">
+                    <span class="feature-number">03</span>
+                    <span class="feature-title">DuckDB_View</span>
+                    <div class="feature-desc">High-performance data visualization.</div>
                 </div>
             </div>
-        </section>
+        </main>
 
-        <div class="research-list">
-            <section class="project-section" id="neural-chess">
-                <div class="project-index">01</div>
-                <div class="project-content">
-                    <h2 class="project-title">NEURAL_CHESS</h2>
-                    <p class="project-desc">Pushing the boundaries of strategic reasoning. Our models go beyond simple
-                        pattern matching to demonstrate deep planning capabilities in complex game states.</p>
-                    <ul class="project-specs">
-                        <li><span>MODEL</span> TRANSFORMER-XL</li>
-                        <li><span>ELO</span> 3500+</li>
-                        <li><span>STATUS</span> ACTIVE DEV</li>
-                    </ul>
-                </div>
-            </section>
+        <footer>
+            &copy; 2025 RQ-Research San Francisco, CA
+        </footer>
+    </div>
 
-            <section class="project-section" id="semantic-sql">
-                <div class="project-index">02</div>
-                <div class="project-content">
-                    <h2 class="project-title">SEMANTIC_SQL</h2>
-                    <p class="project-desc">Bridging the gap between natural language and database queries. We are
-                        building the next generation of Text-to-SQL engines with semantic understanding.</p>
-                    <ul class="project-specs">
-                        <li><span>ACCURACY</span> 98.5%</li>
-                        <li><span>DIALECTS</span> POSTGRES / DUCKDB</li>
-                        <li><span>STATUS</span> BETA</li>
-                    </ul>
-                </div>
-            </section>
+    <div id="labubu-cursor">
+        <img src="pics/labubu.png" alt="Labubu Cursor">
+    </div>
 
-            <section class="project-section" id="duckdb-view">
-                <div class="project-index">03</div>
-                <div class="project-content">
-                    <h2 class="project-title">DUCKDB_VIEW</h2>
-                    <p class="project-desc">High-performance data visualization directly in your IDE. Process millions
-                        of rows in milliseconds with our custom DuckDB-WASM implementation.</p>
-                    <ul class="project-specs">
-                        <li><span>PLATFORM</span> VSCODE</li>
-                        <li><span>ENGINE</span> DUCKDB WASM</li>
-                        <li><span>STATUS</span> RELEASED</li>
-                    </ul>
-                </div>
-            </section>
-        </div>
-    </main>
+    <script>
+        const images = [
+            'pics/kanoi_a_window_into_knowledge_big_square_frame_58c9371b-7a9b-413f-baf1-215b538c9bbc.png',
+            'pics/kanoi_a_window_into_super_intelligence_arctic_galaxy_700b15ce-67d5-43b3-8d05-98ebc7e3d589.png',
+            'pics/kanoi_a_window_into_super_intelligence_arctic_galaxy_b742164f-adcf-4162-955b-35e53954292b.png',
+            'pics/kanoi_square_window_into_knowledge_humanity_snowy_mountains_e39b3216-b52d-49d7-bf4b-d4a6f2ca7c27.png'
+        ];
 
-    <footer>
-        <div class="footer-line"></div>
-        <div class="footer-content">
-            <span>© 2025 RQ-RESEARCH</span>
-            <span>SAN FRANCISCO, CA</span>
-        </div>
-    </footer>
+        function setRandomBackground() {
+            const randomIndex = Math.floor(Math.random() * images.length);
+            const selectedImage = images[randomIndex];
+            const bgContainer = document.getElementById('bg-container');
+            bgContainer.style.backgroundImage = `url('${selectedImage}')`;
+        }
 
-    <script src="script.js"></script>
+        // Set initial background
+        setRandomBackground();
+
+        // Labubu Cursor Logic
+        const labubu = document.getElementById('labubu-cursor');
+        let mouseX = 0;
+        let mouseY = 0;
+        let followerX = 0;
+        let followerY = 0;
+        let angle = 0;
+        const orbitRadius = 50;
+        const orbitSpeed = 0.05;
+        const followSpeed = 0.05; // Slower "lassoing" feel
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateLabubu() {
+            // Smooth follow (Lasso effect) - the center of orbit follows mouse slowly
+            followerX += (mouseX - followerX) * followSpeed;
+            followerY += (mouseY - followerY) * followSpeed;
+
+            // Orbiting calculation
+            angle += orbitSpeed;
+            const orbitX = Math.cos(angle) * orbitRadius;
+            const orbitY = Math.sin(angle) * orbitRadius;
+
+            const finalX = followerX + orbitX;
+            const finalY = followerY + orbitY;
+
+            labubu.style.left = `${finalX}px`;
+            labubu.style.top = `${finalY}px`;
+
+            // Rotate Labubu to face direction of movement or orbit?
+            // Let's just keep it upright for now as requested, or maybe slight tilt?
+            // User asked for "better cursor effect", let's add a slight tilt based on orbit
+            const rotation = Math.cos(angle) * 10;
+            labubu.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+            // Fire particles
+            if (Math.random() > 0.3) { // More fire!
+                createFireParticle(finalX, finalY);
+            }
+
+            requestAnimationFrame(animateLabubu);
+        }
+
+        function createFireParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.classList.add('fire-particle');
+
+            // Emit from "back" relative to orbit?
+            // Let's just emit from center for the chaotic fire effect
+            const offsetX = (Math.random() - 0.5) * 20;
+            const offsetY = (Math.random() - 0.5) * 20;
+
+            particle.style.left = `${x + offsetX}px`;
+            particle.style.top = `${y + offsetY}px`;
+
+            document.body.appendChild(particle);
+
+            // Remove after animation
+            setTimeout(() => {
+                particle.remove();
+            }, 1000);
+        }
+
+        animateLabubu();
+    </script>
 </body>
 
 </html>

@@ -456,17 +456,32 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
+    body {
+        height: auto;
+        overflow-y: auto;
+    }
+
     header {
         padding: 1.5rem;
     }
 
     main {
         padding: 0;
+        height: auto;
+        overflow-y: visible;
+        scroll-snap-type: none;
     }
 
     .hero-section,
     .project-section {
         padding: 0 1.5rem;
+        height: auto;
+        min-height: 100vh;
+        scroll-snap-align: none;
+    }
+
+    footer {
+        scroll-snap-align: none;
     }
 
     .research-list {
